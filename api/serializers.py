@@ -4,15 +4,28 @@ from products.models import Product, ProductCategory, ProductGroup
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False)
+    description = serializers.CharField(required=False)
+    seq = serializers.IntegerField(required=False)
+
     class Meta:
         model = ProductCategory
-        fields = ("name", "description", "seq")
+        fields = ("id", "name", "description", "seq")
+
+
+class ProductCategoryCreateSerializer(serializers.ModelSerializer):
+    description = serializers.CharField(required=False)
+    seq = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = ProductCategory
+        fields = ("id", "name", "description", "seq")
 
 
 class ProductGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductGroup
-        fields = ("category", "name", "description", "seq")
+        fields = ("id", "category_id", "name", "description", "seq")
 
 
 class ProductSerializer(serializers.ModelSerializer):
