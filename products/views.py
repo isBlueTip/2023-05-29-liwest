@@ -1,31 +1,28 @@
-from rest_framework import generics, mixins, viewsets
-from rest_framework.generics import GenericAPIView
+from rest_framework import generics, mixins
 from rest_framework.viewsets import GenericViewSet
 
 from api.paginators import CustomPageNumberPagination
-from api.serializers import (
-    ProductCategoryCreateSerializer,
-    ProductCategorySerializer,
-    ProductGroupSerializer,
-    ProductSerializer,
-)
+from api.serializers import ProductCategorySerializer, ProductGroupSerializer, ProductSerializer
 from products.models import Product, ProductCategory, ProductGroup
 
 
-class ProductCategoryView(
-    mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericViewSet
+class ProductCategoryViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet,
 ):
     queryset = ProductCategory.objects.order_by("seq")
     pagination_class = CustomPageNumberPagination
+    serializer_class = ProductCategorySerializer
 
-    def get_serializer_class(self):
-        if self.action == "create":
-            return ProductCategoryCreateSerializer
-        else:
-            return ProductCategorySerializer
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
 
 
-class ProductGroupView(
+class ProductGroupViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
@@ -33,7 +30,7 @@ class ProductGroupView(
     mixins.DestroyModelMixin,
     GenericViewSet,
 ):
-    queryset = ProductGroup.objects.all()
+    queryset = ProductGroup.objects.order_by("seq")
     serializer_class = ProductGroupSerializer
 
 

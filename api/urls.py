@@ -1,12 +1,12 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from products.views import ProductCategoryView, ProductGroupView  # ProductGroupDetailView,; ProductGroupListCreateView,
+from products.views import ProductCategoryViewSet, ProductGroupViewSet  # ProductGroupDetailView,; ProductGroupListCreateView,
 
 app_name = "api"
 router = routers.DefaultRouter()
-router.register("product-categories", ProductCategoryView, basename="product-categories")
-router.register("product-groups", ProductGroupView, basename="product-groups")
+router.register("product-categories", ProductCategoryViewSet, basename="product-categories")
+router.register("product-groups", ProductGroupViewSet, basename="product-groups")
 
 urlpatterns = [
     path("", include(router.urls)),
