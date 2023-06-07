@@ -1,0 +1,8 @@
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=liwest
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DB_HOST=127.0.0.1
+DB_PORT=5430
+SECRET_KEY=p&l%slhtyn^##a1)ilz@4zqj=rq&agdol^##zglmlkmklmewf16w5165^(*U)(&%3dkm9(vs
+DEBUG=True
