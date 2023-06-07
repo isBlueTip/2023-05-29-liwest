@@ -24,6 +24,9 @@ class ProductGroupSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    group_name = serializers.StringRelatedField(read_only=True, source="group")
+    group_id = serializers.IntegerField(write_only=True, required=True)
+
     class Meta:
         model = Product
-        fields = ("group", "name", "price", "hidden")
+        fields = ("id", "group_name", "group_id", "name", "price", "hidden")

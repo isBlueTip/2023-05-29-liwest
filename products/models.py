@@ -1,5 +1,4 @@
-from pprint import pprint
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -47,8 +46,16 @@ class ProductGroup(models.Model):
 class Product(models.Model):
     group = models.ForeignKey(ProductGroup, on_delete=models.PROTECT)
     name = models.CharField(max_length=255, blank=False, null=False)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
-    hidden = models.BooleanField(default=False)
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=False,
+        null=False,
+        validators=[
+            MinValueValidator(limit_value=0),
+        ],
+    )
+    hidden = models.BooleanField(default=False, blank=False, null=False)
 
     def __str__(self):
         return self.name

@@ -1,5 +1,7 @@
+from django.db.models.deletion import ProtectedError
 from django_filters import rest_framework as filters
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, status
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from api.filters import ProductGroupFilter
@@ -23,6 +25,14 @@ class ProductCategoryViewSet(
         kwargs["partial"] = True
         return super().update(request, *args, **kwargs)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            self.perform_destroy(instance)
+        except ProtectedError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class ProductGroupViewSet(
     mixins.ListModelMixin,
@@ -37,6 +47,9 @@ class ProductGroupViewSet(
     filterset_class = ProductGroupFilter
 
 
-class ProductListCreateView(generics.ListCreateAPIView):
+class ProductViewSet(
+    generics.ListCreateAPIView,
+    GenericViewSet,
+):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
