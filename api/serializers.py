@@ -18,10 +18,6 @@ class ProductGroupSerializer(serializers.ModelSerializer):
     category_id = serializers.IntegerField(write_only=True, required=True)
     seq = serializers.IntegerField(required=False)
 
-    # def __init__(self, instance, data, **kwargs):
-    #     kwargs['partial'] = True  # partial update
-    #     super().__init__(instance, data, **kwargs)
-
     class Meta:
         model = ProductGroup
         fields = ("id", "category_name", "category_id", "name", "description", "seq")
